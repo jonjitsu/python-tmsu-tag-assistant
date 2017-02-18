@@ -87,6 +87,14 @@ Recommendation due to it's hiddeously long name::
 
 * Free software: BSD license
 
+Todo
+====
+* [ ] Create basic interactive REPL with history
+* [ ] Add autocomplete
+* [ ] Add autosuggestion
+* [ ] Add suggestions based on file (maybe metadata)
+
+
 Installation
 ============
 
