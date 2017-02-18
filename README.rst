@@ -63,7 +63,27 @@ Overview
 
 .. end-badges
 
-An assistant for helping you TMSU tag your files.
+An assistant for helping you tag your files with TMSU.
+
+You feed it files you would like to tag and it gives you an interactive prompt
+with auto-complete, auto-suggestions, history.
+
+Feed it files from standard commands::
+
+   find -type f -iname \*.pdf | tmsu-tag-assistant -
+
+Or from a file::
+
+  find -type f -iname \*.pdf > files-to-tag
+  tmsu-tag-assistant files-to-tag
+
+Go through your untagged files::
+
+  tmsu untagged | tmsu-tag-assistant - 
+
+Recommendation due to it's hiddeously long name::
+
+  alias tagass=tmsu-tag-assistant
 
 * Free software: BSD license
 
