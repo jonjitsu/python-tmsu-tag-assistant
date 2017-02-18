@@ -1,0 +1,16 @@
+[paths]
+source =
+   src/tmsu_tag_assistant
+   */site-packages/tmsu_tag_assistant
+
+[run]
+branch = true
+source =
+    tmsu_tag_assistant
+    tests
+parallel = true
+
+[report]
+show_missing = true
+precision = 2
+omit = *migrations*
