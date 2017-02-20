@@ -66,6 +66,7 @@ setup(
     ],
     install_requires=[
         'click',
+        'prompt-toolkit'
     ],
     extras_require={
         # eg:

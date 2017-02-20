@@ -89,9 +89,12 @@ Recommendation due to it's hiddeously long name::
 
 Todo
 ====
-* [ ] Create basic interactive REPL with history
-* [ ] Add autocomplete
-* [ ] Add autosuggestion
+* [X] Create basic interactive REPL with history
+* [X] Add autocomplete
+* [X] Add autosuggestion
+* [X] Add ability to save and not execute tag commands
+* [ ] Add pipe functionality (if possible)
+* [ ] Inject existing file tags into editable area
 * [ ] Add suggestions based on file (maybe metadata)
 
 

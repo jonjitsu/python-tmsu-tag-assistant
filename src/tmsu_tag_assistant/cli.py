@@ -14,10 +14,50 @@ Why does this file exist, and why not put this in __main__?
 
   Also see (1) from http://click.pocoo.org/5/setuptools/#setuptools-integration
 """
-import click
+import os
+from pprint import pprint
+import sys
 
+import click
+from click import echo
+
+from .tmsu import tag_files_with, is_tmsu_initialized
+
+def line_iter(stream):
+    return iter(lambda: stream.readline().rstrip(), '')
+
+def execute(c):
+    ex, out, err = cmd(c)
+    if ex != 0:
+        echo(err, err=True)
+    echo(out)
+
+def execute_cmds(cmds):
+    for cmd in cmds:
+        execute(cmd.as_cmd())
+
+def export_cmds(cmds, stream):
+    stream.writelines(str(cmd) for cmd in cmds)
 
 @click.command()
-@click.argument('names', nargs=-1)
-def main(names):
-    click.echo(repr(names))
+@click.option('-o', '--output', metavar='FILE', type=click.File('w'),
+               help='Don\'t actually execute the tagging but save the commands to a file')
+@click.argument('file', default='-', type=click.File('r'))
+def main(file, output):
+    if not is_tmsu_initialized():
+        echo('TMSU not initialized. Please run:\ntmsu init', err=True)
+        sys.exit(1)
+
+    if not sys.__stdin__.isatty():
+        echo('atty')
+    # return
+    # @TODO save to file to free up stdin so this works with piping
+
+    files = line_iter(file)
+    cmds = tag_files_with(files)
+    if output is None:
+        execute_cmds(cmds)
+    else:
+        export_cmds(cmds, output)
+    echo("Cheers!")
+
