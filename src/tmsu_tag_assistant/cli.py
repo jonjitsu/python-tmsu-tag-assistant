@@ -21,6 +21,7 @@ import sys
 import click
 from click import echo
 
+from .process import cmd
 from .tmsu import tag_files_with, is_tmsu_initialized
 
 def line_iter(stream):
@@ -37,7 +38,7 @@ def execute_cmds(cmds):
         execute(cmd.as_cmd())
 
 def export_cmds(cmds, stream):
-    stream.writelines(str(cmd) for cmd in cmds)
+    stream.writelines(str(cmd) + os.linesep for cmd in cmds)
 
 @click.command()
 @click.option('-o', '--output', metavar='FILE', type=click.File('w'),

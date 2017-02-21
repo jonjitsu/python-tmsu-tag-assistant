@@ -93,9 +93,11 @@ Todo
 * [X] Add autocomplete
 * [X] Add autosuggestion
 * [X] Add ability to save and not execute tag commands
+* [X] Add suggestions based on file (maybe metadata)
+* [X] Inject existing file tags into editable area
+* [ ] Fix direct execution of tag command
+* [ ] Existing file tags should auto inject into editable area
 * [ ] Add pipe functionality (if possible)
-* [ ] Inject existing file tags into editable area
-* [ ] Add suggestions based on file (maybe metadata)
 
 
 Installation

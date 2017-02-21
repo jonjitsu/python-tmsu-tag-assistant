@@ -116,3 +116,12 @@ def test_tag_files_with():
     actual = list(tag_files_with(files, tagger))
     assert isinstance(actual[0], TmsuCmd)
     assert "tmsu tag 'Generators.pdf' 'ebook' 'pdf' 'year=1923'" == str(actual[0])
+
+
+from tmsu_tag_assistant.tmsu import simple_suggested_tags
+
+def test_simple_suggested_tags():
+    tags = ['python', 'ebook', 'compsci']
+    f = './papers/Python Generators and object oriented programming.epub'
+    suggested = simple_suggested_tags(f, tags)
+    assert suggested == {'python'}

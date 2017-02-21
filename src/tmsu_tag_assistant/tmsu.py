@@ -1,4 +1,7 @@
+from difflib import get_close_matches
+from itertools import chain
 import os
+import re
 from prompt_toolkit import prompt
 from prompt_toolkit.history import FileHistory
 from prompt_toolkit.auto_suggest import AutoSuggestFromHistory
@@ -58,6 +61,14 @@ def get_suggested_tags(f, possible_tags):
         - from filename/path
         - from metadata
     """
+    return simple_suggested_tags(f, possible_tags)
+
+def simple_suggested_tags(f, tags):
+    """"""
+    separator = re.compile('[\s\-_.,(){}:;"\'|/]')
+    matches = [get_close_matches(p.lower(), tags) for p in separator.split(f) if p.strip()]
+    return set(chain.from_iterable(matches))
+
 
 class PromptTagger(object):
     def __init__(self, completer=None, history=None, auto_suggest=None):
@@ -68,20 +79,32 @@ class PromptTagger(object):
 
 
     def __call__(self, file):
+        def tags_to_str(tags):
+            return ' '.join(tags)
+
+        completer = self.completer
         registry = self.registry
         @registry.add_binding(Keys.F4, eager=True)
         def _(event):
             # event.cli.current_buffer.insert_text('hello world')
             background(['xdg-open', file])
 
-        def tags_to_str(tags):
-            return ' '.join(tags)
+        @registry.add_binding(Keys.F5, eager=True)
+        def _(event):
+            tags = get_file_tags(file)
+            event.cli.current_buffer.insert_text(tags_to_str(tags))
+
+        @registry.add_binding(Keys.F6, eager=True)
+        def _(event):
+            all_tags = completer.words
+            tags = get_suggested_tags(file, list(all_tags))
+            event.cli.current_buffer.insert_text(tags_to_str(list(tags)[:5]))
 
         current_tags = get_file_tags(file)
-        p = "%s: %s\n> " % (file, tags_to_str(current_tags))
+        p = "[F4] Open file [F5] insert current tags [F6] suggest tags\n%s: %s\n> " % (file, tags_to_str(current_tags))
         tags = prompt(p, history=self.history,
                       auto_suggest=self.auto_suggest,
-                      completer=self.completer,
+                      completer=completer,
                       key_bindings_registry=registry)
         tags = set(tags.strip().split(' '))
         self.add_tags_to_completer(tags)

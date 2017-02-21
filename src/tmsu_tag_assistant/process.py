@@ -1,5 +1,5 @@
 import os
-from subprocess import Popen, PIPE, call
+from subprocess import Popen, PIPE
 
 def to_str(bytes_or_str):
     if isinstance(bytes_or_str, bytes):
